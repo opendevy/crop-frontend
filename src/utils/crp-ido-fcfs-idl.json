@@ -1,0 +1,795 @@
+{
+  "version": "0.1.0",
+  "name": "cropper_ido_fcfs",
+  "constants": [
+    {
+      "name": "STATE_TAG",
+      "type": {
+        "defined": "&[u8]"
+      },
+      "value": "b\"FCFS_STATE_SEED\""
+    },
+    {
+      "name": "USER_TAG",
+      "type": {
+        "defined": "&[u8]"
+      },
+      "value": "b\"FCFS_USER_SEED\""
+    },
+    {
+      "name": "PROJECT_TAG",
+      "type": {
+        "defined": "&[u8]"
+      },
+      "value": "b\"FCFS_PROJECT_SEED\""
+    },
+    {
+      "name": "DENOMINATOR",
+      "type": "u128",
+      "value": "1_000_000_000"
+    },
+    {
+      "name": "USDC_MINT",
+      "type": "string",
+      "value": "\"EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v\""
+    },
+    {
+      "name": "WSOL_MINT",
+      "type": "string",
+      "value": "\"So11111111111111111111111111111111111111112\""
+    },
+    {
+      "name": "CRP_MINT",
+      "type": "string",
+      "value": "\"DubwWZNWiNGMMeeQHPnMATNj77YZPZSAz2WVR5WjLJqz\""
+    }
+  ],
+  "instructions": [
+    {
+      "name": "createState",
+      "accounts": [
+        {
+          "name": "state",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "treasury",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "createProject",
+      "accounts": [
+        {
+          "name": "state",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "project",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "projectMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "projectVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "mainSaleMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "extraSaleMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "prepareDate",
+          "type": "u64"
+        },
+        {
+          "name": "wlStartDate",
+          "type": "u64"
+        },
+        {
+          "name": "processPeriod",
+          "type": "u64"
+        },
+        {
+          "name": "saleStartDate",
+          "type": "u64"
+        },
+        {
+          "name": "distributionDate",
+          "type": "u64"
+        },
+        {
+          "name": "tokenPrice",
+          "type": "u64"
+        },
+        {
+          "name": "extraRate",
+          "type": "u64"
+        },
+        {
+          "name": "maxAllocationPerUser",
+          "type": "u64"
+        },
+        {
+          "name": "totalAllocation",
+          "type": "u64"
+        },
+        {
+          "name": "firstLiberation",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "updateProject",
+      "accounts": [
+        {
+          "name": "state",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "project",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "mainSaleMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "extraSaleMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "prepareDate",
+          "type": "u64"
+        },
+        {
+          "name": "wlStartDate",
+          "type": "u64"
+        },
+        {
+          "name": "processPeriod",
+          "type": "u64"
+        },
+        {
+          "name": "saleStartDate",
+          "type": "u64"
+        },
+        {
+          "name": "distributionDate",
+          "type": "u64"
+        },
+        {
+          "name": "tokenPrice",
+          "type": "u64"
+        },
+        {
+          "name": "extraRate",
+          "type": "u64"
+        },
+        {
+          "name": "maxAllocationPerUser",
+          "type": "u64"
+        },
+        {
+          "name": "totalAllocation",
+          "type": "u64"
+        },
+        {
+          "name": "firstLiberation",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "registerUser",
+      "accounts": [
+        {
+          "name": "state",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "project",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "depositProjectToken",
+      "accounts": [
+        {
+          "name": "project",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "projectVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "withdrawProjectToken",
+      "accounts": [
+        {
+          "name": "project",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "projectVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "claimProjectToken",
+      "accounts": [
+        {
+          "name": "project",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "projectVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userProjectToken",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "projectMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
+    },
+    {
+      "name": "pay",
+      "accounts": [
+        {
+          "name": "state",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "project",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "user",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "treasuryMainVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "treasuryExtraVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userMainVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "userExtraVault",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "mainSaleMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "extraSaleMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "nftStakingState",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "treasury",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "associatedTokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "mainAmount",
+          "type": "u64"
+        },
+        {
+          "name": "hashKey",
+          "type": {
+            "array": [
+              "u8",
+              32
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "NftStakingUserState",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "user",
+            "type": "publicKey"
+          },
+          {
+            "name": "potionNfts",
+            "type": {
+              "array": [
+                "publicKey",
+                10
+              ]
+            }
+          },
+          {
+            "name": "stakedTime",
+            "type": {
+              "array": [
+                "u64",
+                10
+              ]
+            }
+          },
+          {
+            "name": "nftTypes",
+            "type": {
+              "array": [
+                "u8",
+                10
+              ]
+            }
+          },
+          {
+            "name": "potionCounts",
+            "type": {
+              "array": [
+                "u8",
+                4
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "StateAccount",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "authority",
+            "type": "publicKey"
+          },
+          {
+            "name": "treasury",
+            "type": "publicKey"
+          }
+        ]
+      }
+    },
+    {
+      "name": "ProjectAccount",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "authority",
+            "type": "publicKey"
+          },
+          {
+            "name": "mainSaleMint",
+            "type": "publicKey"
+          },
+          {
+            "name": "extraSaleMint",
+            "type": "publicKey"
+          },
+          {
+            "name": "tokenPrice",
+            "type": "u64"
+          },
+          {
+            "name": "extraRate",
+            "type": "u64"
+          },
+          {
+            "name": "maxAllocationPerUser",
+            "type": "u64"
+          },
+          {
+            "name": "projectMint",
+            "type": "publicKey"
+          },
+          {
+            "name": "projectVault",
+            "type": "publicKey"
+          },
+          {
+            "name": "prepareDate",
+            "type": "u64"
+          },
+          {
+            "name": "wlStartDate",
+            "type": "u64"
+          },
+          {
+            "name": "wlEndDate",
+            "type": "u64"
+          },
+          {
+            "name": "saleStartDate",
+            "type": "u64"
+          },
+          {
+            "name": "saleEndDate",
+            "type": "u64"
+          },
+          {
+            "name": "distributionDate",
+            "type": "u64"
+          },
+          {
+            "name": "projectTokenAmount",
+            "type": "u64"
+          },
+          {
+            "name": "paidAmount",
+            "type": "u64"
+          },
+          {
+            "name": "claimedAmount",
+            "type": "u64"
+          },
+          {
+            "name": "subscribed",
+            "type": "u64"
+          },
+          {
+            "name": "firstLiberation",
+            "type": "u64"
+          },
+          {
+            "name": "totalAllocation",
+            "type": "u64"
+          },
+          {
+            "name": "reserved",
+            "type": {
+              "array": [
+                "u64",
+                8
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "UserAccount",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "authority",
+            "type": "publicKey"
+          },
+          {
+            "name": "project",
+            "type": "publicKey"
+          },
+          {
+            "name": "paidAmount",
+            "type": "u64"
+          },
+          {
+            "name": "claimedAmount",
+            "type": "u64"
+          },
+          {
+            "name": "reserved",
+            "type": {
+              "array": [
+                "u64",
+                10
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "types": [
+    {
+      "name": "ErrorCode",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "InvalidLaunchpadAddress"
+          },
+          {
+            "name": "InvalidTierIndex"
+          },
+          {
+            "name": "InvalidTierCount"
+          },
+          {
+            "name": "InvalidAddress"
+          },
+          {
+            "name": "NotAllowed"
+          },
+          {
+            "name": "PayOverflow"
+          },
+          {
+            "name": "InsufficientAmount"
+          },
+          {
+            "name": "MathOverflow"
+          },
+          {
+            "name": "NotLotteryWinner"
+          },
+          {
+            "name": "InvalidTransferAuthority"
+          },
+          {
+            "name": "InvalidExtraTokenMint"
+          },
+          {
+            "name": "NotAllowedDoubleClaim"
+          }
+        ]
+      }
+    }
+  ],
+  "events": [
+    {
+      "name": "LaunchpadCreated",
+      "fields": []
+    },
+    {
+      "name": "UserCreated",
+      "fields": []
+    }
+  ]
+}
