@@ -327,45 +327,29 @@
         <div class="icon-cursor" @click="openOrClose()">
           <img class="bell-icon" :src="require(`@/assets/icons/notification${notifalert == 0 ? '-none' : ''}.svg`)" />
         </div>
-
-        <div
-          v-if="showNotification"
-          class="notification-menu"
-          v-click-outside="
-            () => {
-              this.showNotification = false
-            }
-          "
-        >
-          <div class="notification-group" :class="notificationList.length <= 3 ? 'no-scroll' : ''">
-            <div v-for="notification in notificationList" :key="notification.id" class="notification-box fs-container">
-              <!-- <img
-              class="remove-icon icon-cursor"
-              src="@/assets/icons/close-circle.svg"
-              @click="
-                () => {
-                  notificationList.splice(idx, 1)
-                }
-              "
-            /> -->
-              <div class="notification-icon">
-                <span :class="`notification-circle ${notification.alert == 0 ? 'none' : ''}`"></span>
+        <Modal :visible="showNotification" :footer="null" :closable="false" class="notification-menu" 
+          @cancel="() => { this.showNotification = false }" >
+          <img class="modal-close" src="@/assets/icons/close-circle.svg" @click="() => { this.showNotification = false }" />
+          <div style="min-height: 200px;">
+            <div class="notification-group" :class="notificationList.length <= 3 ? 'no-scroll' : ''">
+              <div v-for="notification in notificationList" :key="notification.id" class="notification-box fs-container">
+                <div class="notification-icon">
+                  <span :class="`notification-circle ${notification.alert == 0 ? 'none' : ''}`"></span>
+                </div>
+                <div class="notification-body">
+                  <span class="notification-title font-small weight-bold">{{ notification.title }}</span>
+                  <span class="font-small">{{ notification.content }}</span>
+                  <NuxtLink v-if="notification.nLink" :to="notification.nLink"><small>See more &gt;</small></NuxtLink>
+                  <a v-else-if="notification.link" target="_blank" :href="notification.link"><small>See more &gt;</small></a>
+                </div>
               </div>
-              <div class="notification-body">
-                <span class="notification-title font-small weight-bold">{{ notification.title }}</span>
-                <span class="font-small">{{ notification.content }}</span>
-                <NuxtLink v-if="notification.nLink" :to="notification.nLink"><small>See more &gt;</small></NuxtLink>
-                <a v-else-if="notification.link" target="_blank" :href="notification.link"
-                  ><small>See more &gt;</small></a
-                >
-              </div>
-            </div>
 
-            <div v-if="notificationList.length === 0" class="notification-alarm text-center">
-              <span class="font-small weight-bold review-text">No new notification</span>
+              <div v-if="notificationList.length === 0" class="notification-alarm text-center">
+                <span class="font-small weight-bold review-text">No new notification</span>
+              </div>
             </div>
           </div>
-        </div>
+        </Modal>
       </div>
 
       <div class="wallet-btn">
